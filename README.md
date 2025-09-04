@@ -6,8 +6,8 @@ CMake common settings used by other C/C++ projects.
 
 In your project directory:
 
-```console
-$ git submodule add git@github.com:lasyard/cmake-common.git
+```sh
+git submodule add git@github.com:lasyard/cmake-common.git
 ```
 
 Then add the following line in the `CMakeLists.txt`:
