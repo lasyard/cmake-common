@@ -31,7 +31,6 @@ endfunction()
 
 function(using_doctest dir)
     include(CTest)
-    enable_testing()
     add_subdirectory(${dir})
     include(${dir}/scripts/cmake/doctest.cmake)
 
