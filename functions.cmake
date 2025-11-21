@@ -4,14 +4,18 @@ function(target_common_settings target)
 endfunction()
 
 function(add_exe target)
-    add_executable(${target} ${ARGN})
+    cmake_parse_arguments(EXE "" "" "LIBS" ${ARGN})
+    add_executable(${target} ${EXE_UNPARSED_ARGUMENTS})
     target_common_settings(${target})
+    target_link_libraries(${target} PRIVATE ${EXE_LIBS})
 endfunction()
 
 function(add_lib target)
+    cmake_parse_arguments(LIB "" "" "LIBS" ${ARGN})
     add_library(${target} STATIC)
-    target_sources(${target} PRIVATE ${ARGN})
+    target_sources(${target} PRIVATE ${LIB_UNPARSED_ARGUMENTS})
     target_common_settings(${target})
+    target_link_libraries(${target} PUBLIC ${LIB_LIBS})
 endfunction()
 
 function(copy_file2 target dst src)
@@ -46,9 +50,10 @@ function(using_doctest dir)
     include(${dir}/scripts/cmake/doctest.cmake)
 
     function(add_test target)
-        add_executable(${target} ${ARGN})
+        cmake_parse_arguments(TEST "" "" "LIBS" ${ARGN})
+        add_executable(${target} ${TEST_UNPARSED_ARGUMENTS})
         target_common_settings(${target})
-        target_link_libraries(${target} PRIVATE doctest)
+        target_link_libraries(${target} PRIVATE doctest ${TEST_LIBS})
 
         # Here `ADD_LABELS` must be provided.
         set(prefix ${target})
