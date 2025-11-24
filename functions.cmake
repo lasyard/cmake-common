@@ -18,30 +18,20 @@ function(add_lib target)
     target_link_libraries(${target} PUBLIC ${LIB_LIBS})
 endfunction()
 
-function(copy_file2 target dst src)
-    set(SRC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${src})
-    set(DST_FILE ${CMAKE_CURRENT_BINARY_DIR}/${dst})
-    add_custom_target(${target}
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${SRC_FILE} ${DST_FILE}
-        DEPENDS ${SRC_FILE}
+function(copy_file dst src)
+    add_custom_command(
+        OUTPUT ${dst}
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${src} ${dst}
+        DEPENDS ${src}
     )
 endfunction()
 
-function(copy_file target file)
-    copy_file2(${target} ${file} ${file})
-endfunction()
-
-function(copy_dir2 target dst src)
-    set(SRC_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${src})
-    set(DST_FILE ${CMAKE_CURRENT_BINARY_DIR}/${dst})
-    add_custom_target(${target}
-        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${SRC_FILE} ${DST_FILE}
-        DEPENDS ${SRC_FILE}
+function(copy_dir dst src)
+    add_custom_command(
+        OUTPUT ${dst}
+        COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${src} ${dst}
+        DEPENDS ${src}
     )
-endfunction()
-
-function(copy_dir target file)
-    copy_dir2(${target} ${file} ${file})
 endfunction()
 
 function(using_doctest dir)
