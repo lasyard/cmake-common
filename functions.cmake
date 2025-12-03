@@ -55,7 +55,7 @@ function(using_doctest dir)
     add_subdirectory(${dir})
     include(${dir}/scripts/cmake/doctest.cmake)
 
-    function(add_test target)
+    function(add_doctest target)
         cmake_parse_arguments(TEST "" "" "LIBS" ${ARGN})
         add_executable(${target} ${TEST_UNPARSED_ARGUMENTS})
         target_common_settings(${target})
