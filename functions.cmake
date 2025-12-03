@@ -18,7 +18,15 @@ function(add_lib target)
     target_link_libraries(${target} PUBLIC ${LIB_LIBS})
 endfunction()
 
-function(copy_file dst src)
+function(copy_file dst)
+    list(LENGTH ARGN n)
+    if(n GREATER 1)
+        message(FATAL_ERROR "Too many arguments for copy_file")
+    elseif(n GREATER 0)
+        list(GET ARGN 0 src)
+    else()
+        set(src ${dst})
+    endif()
     add_custom_command(
         OUTPUT ${dst}
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${src} ${dst}
@@ -27,6 +35,14 @@ function(copy_file dst src)
 endfunction()
 
 function(copy_dir dst src)
+    list(LENGTH ARGN n)
+    if(n GREATER 1)
+        message(FATAL_ERROR "Too many arguments for copy_dir")
+    elseif(n GREATER 0)
+        list(GET ARGN 0 src)
+    else()
+        set(src ${dst})
+    endif()
     add_custom_command(
         OUTPUT ${dst}
         COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${CMAKE_CURRENT_SOURCE_DIR}/${src} ${dst}
