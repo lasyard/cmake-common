@@ -15,3 +15,7 @@ Then add the following line in the `CMakeLists.txt`:
 ```cmake
 include(cmake-common/functions.cmake)
 ```
+
+## MIT License
+
+<https://lasy.fwh.is/mit_license>
